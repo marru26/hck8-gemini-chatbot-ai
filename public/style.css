@@ -124,6 +124,22 @@ body {
     border-bottom-left-radius: 6px; /* Slightly less rounded on one corner */
 }
 
+.edit-button {
+    background-color: #5f6368; /* Warna abu-abu gelap */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #777; /* Warna abu-abu lebih terang saat hover */
+}
+
 .chat-input {
     display: flex;
     padding: 15px 25px;
@@ -217,7 +233,6 @@ body {
 .dot-flashing::before, .dot-flashing::after {
     content: '';
     display: inline-block;
-    position: absolute;
     top: 0;
 }
 

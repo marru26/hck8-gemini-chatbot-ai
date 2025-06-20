@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const suggestionsContainer = document.getElementById('suggestions-container');
 
     let conversationHistory = [];
+    let abortController = null; // Untuk mengelola pembatalan permintaan
 
     const appendMessage = (sender, message) => {
         const messageElement = document.createElement('div');
@@ -21,9 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.appendChild(contentElement);
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+        if (sender === 'user') {
+            const editButton = document.createElement('button');
+            editButton.classList.add('edit-button');
+            editButton.textContent = 'Edit';
+            editButton.onclick = () => editMessage(messageElement, message);
+            messageElement.appendChild(editButton);
+        }
     };
 
-    const simulateTyping = (sender, message, delay = 20) => {
+    const simulateTyping = (sender, message) => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender);
         const contentElement = document.createElement('div');
@@ -32,18 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
 
+        const baseDelay = 15; // Default delay
+        const minDelay = 1;   // Minimum delay for very long messages
+
+        // Adjust delay based on message length: longer messages have smaller delays
+        const delay = Math.max(minDelay, baseDelay - Math.floor(message.length / 100));
+
         let i = 0;
         const typingInterval = setInterval(() => {
             if (i < message.length) {
-                let partialMessage = message.substring(0, i + 1);
-                let formattedPartialMessage = partialMessage
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/(?<!\S)\*(?!\s)(.*?)(?<!\s)\*(?!\S)/g, '<em>$1</em>')
-                    .replace(/^\*\s*(.*)/gm, '<li>$1</li>')
-                    .replace(/\n/g, '<br>');
-                contentElement.innerHTML = formattedPartialMessage;
+                const char = message.charAt(i);
+                contentElement.innerHTML += char;
                 chatBox.scrollTop = chatBox.scrollHeight;
                 i++;
+
+                if (i >= 500 && i < message.length) {
+                    // If 500 characters reached, display the rest of the message immediately
+                    let remainingMessage = message.substring(i);
+                    remainingMessage = remainingMessage
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/(?<!\S)\*(?!\s)(.*?)(?<!\s)\*(?!\S)/g, '<em>$1</em>')
+                        .replace(/^\*\s*(.*)/gm, '<li>$1</li>')
+                        .replace(/\n/g, '<br>');
+                    contentElement.innerHTML += remainingMessage;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    clearInterval(typingInterval);
+                }
             } else {
                 clearInterval(typingInterval);
             }
@@ -78,6 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
         conversationHistory.push({ role: 'user', parts: [{ text: messageText }] });
 
         showLoading(); // Show loading animation before sending request
+        sendButton.textContent = 'Stop'; // Change button text to Stop
+        console.log('Button text changed to Stop');
+        abortController = new AbortController();
+        const signal = abortController.signal;
 
         try {
             const response = await fetch('/chat', {
@@ -86,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ history: conversationHistory, message: messageText }),
+                signal: signal, // Pass the signal to the fetch request
             });
 
             if (!response.ok) {
@@ -100,13 +127,36 @@ document.addEventListener('DOMContentLoaded', () => {
             conversationHistory.push({ role: 'model', parts: [{ text: data.reply }] });
 
         } catch (error) {
-            console.error('Error:', error);
+            if (error.name === 'AbortError') {
+                console.log('Fetch aborted');
+                appendMessage('bot', 'Permintaan dibatalkan.');
+            } else {
+                console.error('Error:', error);
+                appendMessage('bot', 'Maaf, terjadi kesalahan. Silakan coba lagi.');
+            }
+        } finally {
             removeLoading();
-            appendMessage('bot', 'Maaf, terjadi kesalahan. Silakan coba lagi.');
+            sendButton.textContent = 'Send'; // Reset button text to Send
+            console.log('Button text changed to Send');
+            abortController = null;
         }
     };
 
-    sendButton.addEventListener('click', () => sendMessage());
+    const editMessage = (messageElement, originalMessage) => {
+        chatInput.value = originalMessage;
+        // Remove the message from display
+        messageElement.remove();
+        // Remove the message from conversation history
+        conversationHistory = conversationHistory.filter(msg => msg.parts[0].text !== originalMessage);
+    };
+
+    sendButton.addEventListener('click', () => {
+        if (abortController) {
+            abortController.abort(); // Abort the ongoing request
+        } else {
+            sendMessage();
+        }
+    });
 
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -118,7 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialSuggestions = [
         "Apa itu AI?",
         "Bagaimana cuaca hari ini?",
-        "Ceritakan lelucon."
+        "Ceritakan lelucon",
+        "Apa saja yang bisa dilakukan AI?",
+        "Bagaimana cara kerja AI?",
     ];
 
     if (suggestionsContainer) {
