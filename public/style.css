@@ -122,6 +122,9 @@ body {
     background-color: #3e4043; /* Dark grey for bot messages */
     color: #e8eaed;
     border-bottom-left-radius: 6px; /* Slightly less rounded on one corner */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Tambahkan ini jika ingin titik berada di tengah secara horizontal di dalam message-content */
 }
 
 .edit-button {
@@ -209,54 +212,32 @@ body {
 }
 
 /* Loading Animation */
-/* Loading Animation */
 .dot-flashing {
-    position: relative;
-    width: 30px; /* Lebar untuk tiga titik */
-    height: 10px;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 36px; /* Lebar total untuk 3 titik dengan jarak */
+    height: 8px; /* Tinggi titik */
+}
+
+.dot-flashing .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
     background-color: #9896f1;
-    color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: .5s;
-    margin: 0 5px;
-    display: inline-block;
-    vertical-align: middle;
 }
 
-.message.bot .message-content .dot-flashing {
-    margin: 0;
-    position: static;
-    transform: none;
-    width: 30px; /* Lebar untuk tiga titik */
-}
-
-.dot-flashing::before, .dot-flashing::after {
-    content: '';
-    display: inline-block;
-    top: 0;
-}
-
-.dot-flashing::before {
-    left: -15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9896f1;
-    color: #9896f1;
-    animation: dotFlashing 1s infinite linear alternate;
+.dot-flashing .dot:nth-child(1) {
     animation-delay: 0s;
 }
 
-.dot-flashing::after {
-    left: 15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9896f1;
-    color: #9896f1;
-    animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: 1s;
+.dot-flashing .dot:nth-child(2) {
+    animation-delay: .33s;
+}
+
+.dot-flashing .dot:nth-child(3) {
+    animation-delay: .66s;
 }
 
 @keyframes dotFlashing {

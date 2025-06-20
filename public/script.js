@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showLoading = () => {
         const loadingElement = document.createElement('div');
         loadingElement.classList.add('message', 'bot', 'loading');
-        loadingElement.innerHTML = '<div class="message-content"><div class="dot-flashing"></div></div>';
+        loadingElement.innerHTML = '<div class="message-content"><div class="dot-flashing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>';
         chatBox.appendChild(loadingElement);
         chatBox.scrollTop = chatBox.scrollHeight;
     };
