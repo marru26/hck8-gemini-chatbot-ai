@@ -122,9 +122,18 @@ body {
     background-color: #3e4043; /* Dark grey for bot messages */
     color: #e8eaed;
     border-bottom-left-radius: 6px; /* Slightly less rounded on one corner */
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Tambahkan ini jika ingin titik berada di tengah secara horizontal di dalam message-content */
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 20px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word; /* Tambahkan ini untuk kompatibilitas */
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+    font-size: 1em;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .edit-button {
@@ -215,17 +224,19 @@ body {
 .dot-flashing {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 36px; /* Lebar total untuk 3 titik dengan jarak */
+    justify-content: center;
+    width: 60px; /* Lebar total untuk 3 titik dengan jarak */
     height: 8px; /* Tinggi titik */
 }
 
 .dot-flashing .dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 4px;
     background-color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
+    margin: 0 4px; /* Memberi jarak antar titik */
 }
 
 .dot-flashing .dot:nth-child(1) {
