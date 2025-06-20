@@ -13,12 +13,13 @@ app.use(express.static('public')); // Serve static files from 'public' directory
 
 app.post('/chat', async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, history } = req.body;
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        const result = await model.generateContent(message);
+        const chat = model.startChat({ history: history });
+        const result = await chat.sendMessage(message);
         const response = await result.response;
         const text = response.text();
         res.json({ reply: text });

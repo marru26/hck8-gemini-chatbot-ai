@@ -91,13 +91,25 @@ body {
 }
 
 .message-content {
-    padding: 12px 18px;
+    max-width: 80%;
+    padding: 12px 16px;
     border-radius: 20px;
-    max-width: 80%; /* Wider messages */
+    line-height: 1.5;
     word-wrap: break-word;
-    line-height: 1.6; /* Improved line spacing */
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
     font-size: 1em;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.message-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.message-content li {
+    margin-bottom: 5px;
 }
 
 .message.user .message-content {
@@ -162,28 +174,109 @@ body {
     transform: translateY(1px);
 }
 
-/* Scrollbar styling for dark theme */
-.chat-box::-webkit-scrollbar {
+/* Scrollbar Styling */
+::-webkit-scrollbar {
     width: 8px;
 }
 
-.chat-box::-webkit-scrollbar-track {
-    background: #36373a;
+::-webkit-scrollbar-track {
+    background: #2c2d30;
 }
 
-.chat-box::-webkit-scrollbar-thumb {
-    background-color: #5f6368;
+::-webkit-scrollbar-thumb {
+    background: #555;
     border-radius: 10px;
-    border: 2px solid #36373a;
 }
 
-.chat-box::-webkit-scrollbar-thumb:hover {
-    background-color: #7a7e82;
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Loading Animation */
+.dot-flashing {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9896f1;
+    color: #9896f1;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: .5s;
+    margin: 0 5px; /* Adjusted margin */
+    display: inline-block; /* Ensure it's inline with text */
+    vertical-align: middle; /* Align with middle of text */
+}
+
+.message.bot .message-content .dot-flashing {
+    margin: 0; /* Remove extra margin for dot-flashing inside message content */
+    position: static; /* Reset position */
+    transform: none; /* Reset transform */
+}
+
+.dot-flashing::before, .dot-flashing::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+}
+
+.dot-flashing::before {
+    left: -15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9896f1;
+    color: #9896f1;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: 0s;
+}
+
+.dot-flashing::after {
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9896f1;
+    color: #9896f1;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: 1s;
+}
+
+@keyframes dotFlashing {
+    0% { background-color: #9896f1; }
+    50%, 100% { background-color: #eee; }
+}
+
+/* Suggestions Container */
+.suggestions-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.suggestion-button {
+    background-color: #424242; /* Darker grey */
+    color: #e0e0e0; /* Light grey text */
+    border: 1px solid #555; /* Slightly lighter border */
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.suggestion-button:hover {
+    background-color: #555; /* Even darker grey on hover */
+    border-color: #666;
 }
 
 .message {
     display: flex;
-    margin-bottom: 10px;
+    align-items: flex-end;
+    margin-bottom: 5px; /* Space between messages */
 }
 
 .message.user {
@@ -208,9 +301,9 @@ body {
 }
 
 .message.bot .message-content {
-    background-color: #dcf8c6;
-    color: #333;
-    border-bottom-left-radius: 2px;
+    background-color: #2c2d30; /* Warna latar belakang chatbox */
+    color: #e8eaed; /* Warna teks bot */
+    border-bottom-left-radius: 6px; /* Mengembalikan radius sudut */
 }
 
 .chat-input {
