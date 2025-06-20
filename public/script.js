@@ -77,6 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add user message to history
         conversationHistory.push({ role: 'user', parts: [{ text: messageText }] });
 
+        showLoading(); // Show loading animation before sending request
+
         try {
             const response = await fetch('/chat', {
                 method: 'POST',

@@ -208,9 +208,10 @@ body {
 }
 
 .message.bot .message-content .dot-flashing {
-    margin: 0; /* Remove extra margin for dot-flashing inside message content */
-    position: static; /* Reset position */
-    transform: none; /* Reset transform */
+    margin: 0 0 0 0;
+    position: static;
+    transform: none;
+    width: 30px; /* Ensure width is applied to the specific bot message loading */
 }
 
 .dot-flashing::before, .dot-flashing::after {
