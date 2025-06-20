@@ -13,12 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentElement = document.createElement('div');
         contentElement.classList.add('message-content');
         // Basic Markdown rendering for bold, italic, and new lines
-        let formattedMessage = message
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
-            .replace(/(?<!\S)\*(?!\s)(.*?)(?<!\s)\*(?!\S)/g, '<em>$1</em>') // Italic (only if not at start of line or preceded by non-whitespace)
-            .replace(/^\*\s*(.*)/gm, '<li>$1</li>') // Bullet points
-            .replace(/\n/g, '<br>'); // New lines
-        contentElement.innerHTML = formattedMessage;
+        contentElement.innerHTML = marked.parse(message);
         messageElement.appendChild(contentElement);
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
@@ -57,12 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (i >= 500 && i < message.length) {
                     // If 500 characters reached, display the rest of the message immediately
                     let remainingMessage = message.substring(i);
-                    remainingMessage = remainingMessage
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/(?<!\S)\*(?!\s)(.*?)(?<!\s)\*(?!\S)/g, '<em>$1</em>')
-                        .replace(/^\*\s*(.*)/gm, '<li>$1</li>')
-                        .replace(/\n/g, '<br>');
-                    contentElement.innerHTML += remainingMessage;
+                    contentElement.innerHTML = marked.parse(message);
                     chatBox.scrollTop = chatBox.scrollHeight;
                     clearInterval(typingInterval);
                 }
