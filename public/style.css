@@ -209,53 +209,40 @@ body {
 }
 
 /* Loading Animation */
+/* Loading Animation */
 .dot-flashing {
     position: relative;
-    width: 10px;
+    width: 20px; /* Adjusted width for two dots */
     height: 10px;
     border-radius: 5px;
     background-color: #9896f1;
     color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: .5s;
+    animation-delay: 0s; /* Adjusted delay for the first dot */
     margin: 0 5px; /* Adjusted margin */
     display: inline-block; /* Ensure it's inline with text */
     vertical-align: middle; /* Align with middle of text */
 }
 
 .message.bot .message-content .dot-flashing {
-    margin: 0 0 0 0;
+    margin: 0;
     position: static;
     transform: none;
-    width: 30px; /* Ensure width is applied to the specific bot message loading */
-}
-
-.dot-flashing::before, .dot-flashing::after {
-    content: '';
-    display: inline-block;
-    top: 0;
+    width: 20px; /* Ensure width is applied to the specific bot message loading for two dots */
 }
 
 .dot-flashing::before {
-    left: -15px;
+    content: '';
+    display: inline-block;
+    top: 0;
+    left: -10px; /* Adjust position for two dots */
     width: 10px;
     height: 10px;
     border-radius: 5px;
     background-color: #9896f1;
     color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: 0s;
-}
-
-.dot-flashing::after {
-    left: 15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9896f1;
-    color: #9896f1;
-    animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: 1s;
+    animation-delay: 0.5s; /* Delay for the second dot */
 }
 
 @keyframes dotFlashing {
@@ -287,67 +274,4 @@ body {
 .suggestion-button:hover {
     background-color: #555; /* Even darker grey on hover */
     border-color: #666;
-}
-
-.message {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 5px; /* Space between messages */
-}
-
-.message.user {
-    justify-content: flex-end;
-}
-
-.message.bot {
-    justify-content: flex-start;
-}
-
-.message-content {
-    padding: 10px 15px;
-    border-radius: 20px;
-    max-width: 70%;
-    word-wrap: break-word;
-}
-
-.message.user .message-content {
-    background-color: #4285F4;
-    color: white;
-    border-bottom-right-radius: 2px;
-}
-
-.message.bot .message-content {
-    background-color: #2c2d30; /* Warna latar belakang chatbox */
-    color: #e8eaed; /* Warna teks bot */
-    border-bottom-left-radius: 6px; /* Mengembalikan radius sudut */
-}
-
-.chat-input {
-    display: flex;
-    padding: 15px;
-    border-top: 1px solid #ddd;
-    background-color: #f9f9f9;
-}
-
-.chat-input input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    margin-right: 10px;
-    outline: none;
-}
-
-.chat-input button {
-    background-color: #4285F4;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.chat-input button:hover {
-    background-color: #3367D6;
 }
