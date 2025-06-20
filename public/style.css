@@ -212,37 +212,51 @@ body {
 /* Loading Animation */
 .dot-flashing {
     position: relative;
-    width: 20px; /* Adjusted width for two dots */
+    width: 30px; /* Lebar untuk tiga titik */
     height: 10px;
     border-radius: 5px;
     background-color: #9896f1;
     color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: 0s; /* Adjusted delay for the first dot */
-    margin: 0 5px; /* Adjusted margin */
-    display: inline-block; /* Ensure it's inline with text */
-    vertical-align: middle; /* Align with middle of text */
+    animation-delay: .5s;
+    margin: 0 5px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .message.bot .message-content .dot-flashing {
     margin: 0;
     position: static;
     transform: none;
-    width: 20px; /* Ensure width is applied to the specific bot message loading for two dots */
+    width: 30px; /* Lebar untuk tiga titik */
 }
 
-.dot-flashing::before {
+.dot-flashing::before, .dot-flashing::after {
     content: '';
     display: inline-block;
     top: 0;
-    left: -10px; /* Adjust position for two dots */
+}
+
+.dot-flashing::before {
+    left: -15px;
     width: 10px;
     height: 10px;
     border-radius: 5px;
     background-color: #9896f1;
     color: #9896f1;
     animation: dotFlashing 1s infinite linear alternate;
-    animation-delay: 0.5s; /* Delay for the second dot */
+    animation-delay: 0s;
+}
+
+.dot-flashing::after {
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9896f1;
+    color: #9896f1;
+    animation: dotFlashing 1s infinite linear alternate;
+    animation-delay: 1s;
 }
 
 @keyframes dotFlashing {
