@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.classList.add('message', sender);
         const contentElement = document.createElement('div');
         contentElement.classList.add('message-content');
-        contentElement.textContent = message;
+        // Basic Markdown rendering for bold, italic, and new lines
+        let formattedMessage = message
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+            .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+            .replace(/\n/g, '<br>'); // New lines
+        contentElement.innerHTML = formattedMessage;
         messageElement.appendChild(contentElement);
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
